@@ -4,7 +4,7 @@ import de.romanamo.fractolio.model.evaluator.EvaluationContents;
 import de.romanamo.fractolio.model.function.ComplexFunction;
 import org.apfloat.Apcomplex;
 
-public interface SetEvaluator<F extends ComplexFunction> {
+public interface SetEvaluator {
 
-    public EvaluationContents evaluate(F function, Apcomplex z);
+    public EvaluationContents evaluate(ComplexFunction function, Apcomplex z);
 }

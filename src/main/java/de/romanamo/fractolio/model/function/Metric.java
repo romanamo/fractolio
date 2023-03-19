@@ -4,7 +4,7 @@ import org.apfloat.Apcomplex;
 import org.apfloat.Apfloat;
 
 /**
- * Class describing {@link Metric} for {@link Apcomplex Complex Numbers} or e.g. a 2-dimensional Vector.
+ * Class describing a {@link Metric} for {@link Apcomplex Complex Numbers} or e.g. a 2-dimensional Vector.
  * Mathematical speaking a Metric {@code d} must have the following properties.
  * <ol>
  *     <li>
