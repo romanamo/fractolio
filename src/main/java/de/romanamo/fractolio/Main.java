@@ -12,16 +12,14 @@ import de.romanamo.fractolio.model.function.QuadraticPolynomialFunction;
 import org.apfloat.Apcomplex;
 import org.apfloat.Apfloat;
 
-import java.util.Arrays;
-
 public class Main {
 
     public static void main(String[] args) {
 
-        SetEvaluator evaluator = new IterationalSetEvaluator(30, new Apfloat(2), new EuclideanMetric());
+        SetEvaluator evaluator = new IterationalSetEvaluator(15, new Apfloat(2), new EuclideanMetric());
 
         ComplexFunction func = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
-        ImageDrawer drawer = new ImageDrawer(func, new LightMap(1, 0.0f, 222f), evaluator, new ImageSize(400,400));
+        ImageDrawer drawer = new ImageDrawer(func, new LightMap(1, 0, 0), evaluator, new ImageSize(200,500));
         drawer.draw();
     }
 }
