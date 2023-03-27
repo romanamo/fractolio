@@ -19,7 +19,7 @@ public class Main {
         SetEvaluator evaluator = new IterationalSetEvaluator(15, new Apfloat(2), new EuclideanMetric());
 
         ComplexFunction func = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
-        ImageDrawer drawer = new ImageDrawer(func, new LightMap(1, 0, 0), evaluator, new ImageSize(200,500));
+        ImageDrawer drawer = new ImageDrawer(func, new LightMap(1, 0, 0), evaluator, new ImageSize(300,300));
         drawer.draw();
     }
 }

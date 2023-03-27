@@ -19,6 +19,7 @@ import org.apfloat.ApfloatMath;
 public class EuclideanMetric implements Metric {
     @Override
     public Apfloat distance(Apcomplex a, Apcomplex b) {
+        //Calculate distance between a and b using the Pythagorean theorem
         Apfloat real = ApfloatMath.pow(a.real().subtract(b.real()), 2);
         Apfloat imag = ApfloatMath.pow(a.imag().subtract(b.imag()), 2);
 
@@ -28,6 +29,7 @@ public class EuclideanMetric implements Metric {
     @Override
     public Apfloat distance(Apcomplex a) {
         //Rounding is heavily needed here else we would get a problem
+        //TODO implement an option to define the maximum precision instead of being hardcoded
         return ApcomplexMath.abs(a.precision(64));
     }
 }

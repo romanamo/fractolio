@@ -1,6 +1,5 @@
 package de.romanamo.fractolio.model.function;
 
-import de.romanamo.fractolio.model.function.PolynomialFunction;
 import org.apfloat.Apcomplex;
 import org.apfloat.ApcomplexMath;
 

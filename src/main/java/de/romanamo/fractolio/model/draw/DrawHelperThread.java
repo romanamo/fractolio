@@ -1,9 +1,7 @@
 package de.romanamo.fractolio.model.draw;
 
 import de.romanamo.fractolio.model.evaluator.EvaluationContents;
-import org.apfloat.Apcomplex;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class DrawHelperThread extends Thread{
