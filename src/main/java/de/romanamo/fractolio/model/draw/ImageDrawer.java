@@ -6,10 +6,7 @@ import de.romanamo.fractolio.model.function.ComplexFunction;
 import org.apfloat.Apcomplex;
 import org.apfloat.Apfloat;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,12 +77,6 @@ public class ImageDrawer {
                 throw new RuntimeException();
             }
 
-        }
-
-        try {
-            ImageIO.write(image, "png", new File("src//main//resources//test.png"));
-        }catch (IOException e) {
-            e.printStackTrace();
         }
         return image;
     }
