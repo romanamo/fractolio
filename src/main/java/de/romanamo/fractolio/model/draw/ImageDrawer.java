@@ -1,7 +1,6 @@
 package de.romanamo.fractolio.model.draw;
 
 import de.romanamo.fractolio.model.color.ColorMap;
-import de.romanamo.fractolio.model.evaluator.EvaluationContents;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
 import de.romanamo.fractolio.model.function.ComplexFunction;
 import org.apfloat.Apcomplex;
@@ -13,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Class {@link ImageDrawer} managing the creation of Images specified by given
@@ -21,9 +19,9 @@ import java.util.Random;
  */
 public class ImageDrawer {
 
-    public final static int FRAME_HEIGHT = 4;
+    public final static double FRAME_HEIGHT = 3.5;
 
-    public final static int FRAME_WIDTH = 4;
+    public final static double FRAME_WIDTH = 3.5;
 
     ComplexFunction function;
 
@@ -65,17 +63,6 @@ public class ImageDrawer {
                 Apcomplex c = new Apcomplex(scaledX, scaledY);
 
                 elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x,y));
-
-                ////Create the parameter to pass into the evaluator
-                //Apfloat scaledX = new Apfloat(-FRAME_WIDTH/2.0 + x * (FRAME_WIDTH / (double) width));
-                //Apfloat scaledY = new Apfloat(FRAME_HEIGHT/2.0 - y * (FRAME_HEIGHT / (double) height));
-                //Apcomplex c = new Apcomplex(scaledX, scaledY);
-                //
-                //EvaluationContents contents = this.evaluator.evaluate(this.function, c);
-                //
-                ////Fetching the matching color
-                //int color = this.colorMap.translate(contents.getRelation());
-                //image.setRGB(x,y, color);
             }
         }
         List<Thread> threads = new ArrayList<>();

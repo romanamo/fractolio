@@ -1,6 +1,9 @@
+![GitHub commit activity][updates-monthly]
+![Last Commit][last-commit]
+![License][license]
 <div align="center">
   <a href="https://github.com/romanamo/fractolio">
-    <img src="assets/logo-round.png" alt="Logo" width="128" height="128">
+    <img src="assets/logo-round.png" alt="Logo" width="128" height="128" style="background:transparent">
   </a>
     <h3 align="center">fractolio</h3>
 </div>
@@ -29,4 +32,9 @@ soon to be added
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.md` for more information.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<!-- Markdown-Links -->
+[last-commit]: https://img.shields.io/github/last-commit/romanamo/fractolio
+[updates-monthly]: https://img.shields.io/github/commit-activity/m/romanamo/fractolio
+[license]: https://img.shields.io/github/license/romanamo/fractolio

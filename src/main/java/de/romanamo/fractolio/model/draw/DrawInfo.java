@@ -3,7 +3,6 @@ package de.romanamo.fractolio.model.draw;
 import org.apfloat.Apcomplex;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 public class DrawInfo {
 
@@ -21,7 +20,8 @@ public class DrawInfo {
         this.number = number;
         this.drawer = drawer;
         this.x = x;
-        this.y = y;}
+        this.y = y;
+    }
 
     public BufferedImage getImage() {
         return image;
