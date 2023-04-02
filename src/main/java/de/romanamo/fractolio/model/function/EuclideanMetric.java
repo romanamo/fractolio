@@ -30,6 +30,6 @@ public class EuclideanMetric implements Metric {
     public Apfloat distance(Apcomplex a) {
         //Rounding is heavily needed here else we would get a problem
         //TODO implement an option to define the maximum precision instead of being hardcoded
-        return ApcomplexMath.abs(a.precision(64));
+        return ApcomplexMath.abs(a.precision(32));
     }
 }

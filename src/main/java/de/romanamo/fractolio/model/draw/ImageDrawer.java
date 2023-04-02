@@ -20,6 +20,12 @@ public class ImageDrawer {
 
     public final static double FRAME_WIDTH = 3.5;
 
+    public final double OFFSET_X = 0.0;
+
+    public final double OFFSET_Y = 0.0;
+
+    private double zoom = 0.5;
+
     ComplexFunction function;
 
     ColorMap colorMap;
@@ -55,8 +61,8 @@ public class ImageDrawer {
 
             for (int y = 0; y < height; y++) {
 
-                Apfloat scaledX = new Apfloat(-FRAME_WIDTH/2.0 + x * (FRAME_WIDTH / (double) width));
-                Apfloat scaledY = new Apfloat(FRAME_HEIGHT/2.0 - y * (FRAME_HEIGHT / (double) height));
+                Apfloat scaledX = new Apfloat(((-FRAME_WIDTH* (1/zoom))/2.0 + x * ((FRAME_WIDTH* (1/zoom)) / (double) width) + OFFSET_X));
+                Apfloat scaledY = new Apfloat(((FRAME_HEIGHT* (1/zoom))/2.0 - y * ((FRAME_HEIGHT* (1/zoom)) / (double) height) + OFFSET_Y));
                 Apcomplex c = new Apcomplex(scaledX, scaledY);
 
                 elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x,y));
@@ -95,5 +101,13 @@ public class ImageDrawer {
 
     public ImageSize getSize() {
         return size;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
+
+    public double getZoom() {
+        return zoom;
     }
 }

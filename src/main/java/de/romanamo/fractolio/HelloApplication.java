@@ -2,16 +2,22 @@ package de.romanamo.fractolio;
 
 import de.romanamo.fractolio.model.color.BlackWhiteMap;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
+import de.romanamo.fractolio.model.draw.ImageScaler;
 import de.romanamo.fractolio.model.draw.ImageSize;
 import de.romanamo.fractolio.model.evaluator.IterationalSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
 import de.romanamo.fractolio.model.function.ComplexFunction;
 import de.romanamo.fractolio.model.function.EuclideanMetric;
+import de.romanamo.fractolio.model.function.ManhattanMetric;
 import de.romanamo.fractolio.model.function.QuadraticPolynomialFunction;
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.apfloat.Apcomplex;
@@ -22,6 +28,12 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
+    private final SetEvaluator evaluator = new IterationalSetEvaluator(12, new Apfloat(2), new EuclideanMetric());
+
+    private final ComplexFunction function = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
+
+    private final ImageDrawer drawer = new ImageDrawer(function, new BlackWhiteMap(), evaluator, new ImageSize( 100, 100));
+
     class ResizableCanvas extends Canvas {
 
         public ResizableCanvas() {
@@ -30,7 +42,7 @@ public class HelloApplication extends Application {
             heightProperty().addListener(evt -> draw());
         }
 
-        private void draw() {
+        public void draw() {
             double width = getWidth();
             double height = getHeight();
             GraphicsContext gc = getGraphicsContext2D();
@@ -41,12 +53,10 @@ public class HelloApplication extends Application {
 
             gc.clearRect(0, 0, width, height);
 
-            SetEvaluator evaluator = new IterationalSetEvaluator(20, new Apfloat(2), new EuclideanMetric());
-            ComplexFunction func = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
+            BufferedImage original = drawer.draw();
+            BufferedImage resized = ImageScaler.scale(original, (int) width, (int) height);
 
-            ImageDrawer drawer = new ImageDrawer(func, new BlackWhiteMap(), evaluator, new ImageSize((int) width, (int) height));
-
-            BufferedImage buffered = drawer.draw();
+            gc.drawImage(SwingFXUtils.toFXImage(resized, null), 0, 0);
         }
 
         @Override
@@ -73,7 +83,7 @@ public class HelloApplication extends Application {
         Pane root = new Pane();
         // Add the Canvas to the Pane
 
-        Canvas canvas = new ResizableCanvas();
+        ResizableCanvas canvas = new ResizableCanvas();
         root.getChildren().add(canvas);
 
         canvas.widthProperty().bind(
@@ -86,9 +96,19 @@ public class HelloApplication extends Application {
         // Add the Scene to the Stage
         stage.setScene(scene);
         // Set the Title of the Stage
-        stage.setTitle("Creation of a Canvas");
+        stage.setTitle("fractolio");
+
+        stage.getIcons().add(new Image("file:assets/logo-round.png"));
         // Display the Stage
         stage.show();
+
+
+        root.setOnScroll(scrollEvent -> {
+            double zoom = drawer.getZoom();
+            //TODO Change that zoom stays relative
+            drawer.setZoom(zoom + scrollEvent.getDeltaY() * 0.01);
+            canvas.draw();
+        });
     }
 
     public static void main(String[] args) {

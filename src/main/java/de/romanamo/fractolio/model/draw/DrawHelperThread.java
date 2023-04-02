@@ -20,6 +20,5 @@ public class DrawHelperThread extends Thread{
             idea.getImage().setRGB(idea.getX(), idea.getY(), color);
 
         }
-        System.out.printf("Finished Thread: %s \n", this.getName());
     }
 }
