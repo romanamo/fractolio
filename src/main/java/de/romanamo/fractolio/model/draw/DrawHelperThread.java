@@ -1,7 +1,5 @@
 package de.romanamo.fractolio.model.draw;
 
-import de.romanamo.fractolio.model.evaluator.EvaluationContents;
-
 import java.util.List;
 
 public class DrawHelperThread extends Thread{
@@ -14,9 +12,9 @@ public class DrawHelperThread extends Thread{
     public void run() {
         for(DrawInfo idea: info) {
             ImageDrawer drawer = idea.getDrawer();
-            EvaluationContents content = drawer.getEvaluator().evaluate(drawer.getFunction(), idea.getNumber());
+            int iteration = drawer.getEvaluator().evaluate(drawer.getFunction(), idea.getNumber());
 
-            int color = drawer.getColorMap().translate(content.getRelation());
+            int color = drawer.getColorMap().translate((double) iteration / drawer.getEvaluator().getMaxIteration());
             idea.getImage().setRGB(idea.getX(), idea.getY(), color);
 
         }

@@ -1,23 +1,19 @@
 package de.romanamo.fractolio;
 
-import de.romanamo.fractolio.model.color.BlackWhiteMap;
+import de.romanamo.fractolio.model.color.HueMap;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
 import de.romanamo.fractolio.model.draw.ImageScaler;
 import de.romanamo.fractolio.model.draw.ImageSize;
-import de.romanamo.fractolio.model.evaluator.IterationalSetEvaluator;
-import de.romanamo.fractolio.model.evaluator.SetEvaluator;
+import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.function.ComplexFunction;
 import de.romanamo.fractolio.model.function.EuclideanMetric;
-import de.romanamo.fractolio.model.function.ManhattanMetric;
 import de.romanamo.fractolio.model.function.QuadraticPolynomialFunction;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.apfloat.Apcomplex;
@@ -28,11 +24,12 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    private final SetEvaluator evaluator = new IterationalSetEvaluator(12, new Apfloat(2), new EuclideanMetric());
+    private final FunctionSetEvaluator evaluator = new FunctionSetEvaluator(12, new Apfloat(2), new EuclideanMetric());
 
-    private final ComplexFunction function = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
+    //private final ComplexFunction function = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
+    private final ComplexFunction function = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(0), new Apfloat(0)));
 
-    private final ImageDrawer drawer = new ImageDrawer(function, new BlackWhiteMap(), evaluator, new ImageSize( 100, 100));
+    private final ImageDrawer drawer = new ImageDrawer(function, new HueMap(1, 0), evaluator, new ImageSize( 200, 200));
 
     class ResizableCanvas extends Canvas {
 

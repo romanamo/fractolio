@@ -1,6 +1,7 @@
 package de.romanamo.fractolio.model.draw;
 
 import de.romanamo.fractolio.model.color.ColorMap;
+import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
 import de.romanamo.fractolio.model.function.ComplexFunction;
 import org.apfloat.Apcomplex;
@@ -30,11 +31,11 @@ public class ImageDrawer {
 
     ColorMap colorMap;
 
-    SetEvaluator evaluator;
+    FunctionSetEvaluator evaluator;
 
     ImageSize size;
 
-    public ImageDrawer(ComplexFunction function, ColorMap colorMap, SetEvaluator evaluator, ImageSize size) {
+    public ImageDrawer(ComplexFunction function, ColorMap colorMap, FunctionSetEvaluator evaluator, ImageSize size) {
         this.function = function;
         this.colorMap = colorMap;
         this.evaluator = evaluator;
@@ -87,7 +88,7 @@ public class ImageDrawer {
         return image;
     }
 
-    public SetEvaluator getEvaluator() {
+    public FunctionSetEvaluator getEvaluator() {
         return evaluator;
     }
 
