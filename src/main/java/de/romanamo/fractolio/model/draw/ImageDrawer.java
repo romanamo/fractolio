@@ -1,9 +1,9 @@
 package de.romanamo.fractolio.model.draw;
 
+import de.romanamo.fractolio.math.DVector2D;
 import de.romanamo.fractolio.model.color.ColorMap;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
-import de.romanamo.fractolio.model.function.ComplexFunction;
 import org.apfloat.Apcomplex;
 import org.apfloat.Apfloat;
 
@@ -21,25 +21,32 @@ public class ImageDrawer {
 
     public final static double FRAME_WIDTH = 3.5;
 
-    public final double OFFSET_X = 0.0;
+    public final DVector2D offset;
 
-    public final double OFFSET_Y = 0.0;
+    private double zoom = 1.0;
+    FunctionSetEvaluator<DVector2D> evaluator;
 
-    private double zoom = 0.5;
+    public ImageDrawer(FunctionSetEvaluator<DVector2D> evaluator) {
+        this(evaluator, DVector2D.ZERO);
+    }
 
-    ComplexFunction function;
-
-    ColorMap colorMap;
-
-    FunctionSetEvaluator evaluator;
-
-    ImageSize size;
-
-    public ImageDrawer(ComplexFunction function, ColorMap colorMap, FunctionSetEvaluator evaluator, ImageSize size) {
-        this.function = function;
-        this.colorMap = colorMap;
+    public ImageDrawer(FunctionSetEvaluator<DVector2D> evaluator, DVector2D offset) {
         this.evaluator = evaluator;
-        this.size = size;
+        this.offset = offset;
+    }
+
+    public int[][] raster(int width, int height) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                double scaledX = ((-FRAME_WIDTH * (1 / zoom)) / 2.0 + x * ((FRAME_WIDTH * (1 / zoom)) / (double) width) + offset.getX());
+                double scaledY = ((FRAME_HEIGHT * (1 / zoom)) / 2.0 - y * ((FRAME_HEIGHT * (1 / zoom)) / (double) height) + offset.getY());
+
+                elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x, y));
+            }
+        }
+    }
+
+    public BufferedImage draw(int width, int height, ColorMap map) {
 
     }
 
@@ -58,19 +65,18 @@ public class ImageDrawer {
             elements.add(new ArrayList<>());
         }
 
-        for (int x = 0; x < width; x++){
-
+        for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
-                Apfloat scaledX = new Apfloat(((-FRAME_WIDTH* (1/zoom))/2.0 + x * ((FRAME_WIDTH* (1/zoom)) / (double) width) + OFFSET_X));
-                Apfloat scaledY = new Apfloat(((FRAME_HEIGHT* (1/zoom))/2.0 - y * ((FRAME_HEIGHT* (1/zoom)) / (double) height) + OFFSET_Y));
+                Apfloat scaledX = new Apfloat(((-FRAME_WIDTH * (1 / zoom)) / 2.0 + x * ((FRAME_WIDTH * (1 / zoom)) / (double) width) + OFFSET_X));
+                Apfloat scaledY = new Apfloat(((FRAME_HEIGHT * (1 / zoom)) / 2.0 - y * ((FRAME_HEIGHT * (1 / zoom)) / (double) height) + OFFSET_Y));
                 Apcomplex c = new Apcomplex(scaledX, scaledY);
 
-                elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x,y));
+                elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x, y));
             }
         }
         List<Thread> threads = new ArrayList<>();
-        for (List<DrawInfo> info: elements) {
+        for (List<DrawInfo> info : elements) {
             var t = new DrawHelperThread(info);
             threads.add(t);
             t.start();
@@ -79,8 +85,7 @@ public class ImageDrawer {
         for (Thread t : threads) {
             try {
                 t.join();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 throw new RuntimeException();
             }
 
@@ -92,16 +97,8 @@ public class ImageDrawer {
         return evaluator;
     }
 
-    public ComplexFunction getFunction() {
-        return function;
-    }
-
     public ColorMap getColorMap() {
         return colorMap;
-    }
-
-    public ImageSize getSize() {
-        return size;
     }
 
     public void setZoom(double zoom) {

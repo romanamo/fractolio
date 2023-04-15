@@ -23,7 +23,7 @@ public class Main {
         FunctionSetEvaluator evaluator = new FunctionSetEvaluator(15, new Apfloat(2), new EuclideanMetric());
 
         ComplexFunction func = new QuadraticPolynomialFunction(new Apcomplex(new Apfloat(-0.70176), new Apfloat(-0.3842)));
-        ImageDrawer drawer = new ImageDrawer(func, new HueMap(1, 0), evaluator, new ImageSize(100, 100));
+        ImageDrawer drawer = new ImageDrawer(func, new HueMap(1, 0), evaluator, new ImageSize(200, 200));
         BufferedImage original = drawer.draw();
         BufferedImage resized = ImageScaler.scale(original, 300, 300);
 

@@ -1,38 +1,49 @@
 package de.romanamo.fractolio.model.evaluator;
 
-import de.romanamo.fractolio.model.function.Metric;
-import de.romanamo.fractolio.model.function.ComplexFunction;
-import org.apfloat.Apcomplex;
-import org.apfloat.Apfloat;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-public abstract class FunctionSetEvaluator<E> implements IterationSetEvaluator {
+/**
+ * <h1>FunctionSetEvaluator</h1>
+ *
+ * {@link IterationSetEvaluator} that evaluates a given element,
+ * by applying a function to the element multiple times
+ *
+ * @param <E> Element of the Function
+ */
+public class FunctionSetEvaluator<E> implements IterationSetEvaluator<E> {
 
     private int maxIteration;
+    private final Predicate<E> escapeCondition;
 
-    private final Apfloat escapeRadii;
+    private final Function<E, E> function;
 
-    private final Metric metric;
 
-    public FunctionSetEvaluator(int maxIteration, Apfloat escapeRadii, Metric metric) {
+    public FunctionSetEvaluator(int maxIteration, Function<E, E> function, Predicate<E> escapeCondition) {
         this.maxIteration = maxIteration;
-        this.escapeRadii = escapeRadii;
-        this.metric = metric;
+        this.function = function;
+        this.escapeCondition = escapeCondition;
     }
 
     @Override
-    public int evaluate(ComplexFunction function, Apcomplex z) {
+    public int getIteration(E element) {
+        //set start values for the evaluating process
         int iteration = 0;
-        Apcomplex num = z;
-
-        //Even more abstraction is possible here by changing the criteria why a number is contained in the Set
-        while (metric.distance(num).compareTo(this.escapeRadii) < 0 && iteration < this.maxIteration) {
-            num = function.apply(num);
+        E num = element;
+        //return if maxIteration has been reached or the escapeCondition has been met
+        while (!this.escapeCondition.test(num) && iteration < this.maxIteration) {
+            //pass through iteration by applying function
+            num = this.function.apply(num);
             iteration++;
         }
         return iteration;
-
     }
 
+    public void setMaxIteration(int maxIteration) {
+        this.maxIteration = maxIteration;
+    }
+
+    @Override
     public int getMaxIteration() {
         return maxIteration;
     }
