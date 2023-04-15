@@ -11,17 +11,13 @@ import java.util.function.Predicate;
  *
  * @param <E> Element of the Function
  */
-public class FunctionSetEvaluator<E> implements IterationSetEvaluator<E> {
+public abstract class FunctionSetEvaluator<E> implements IterationSetEvaluator<E> {
 
     private int maxIteration;
     private final Predicate<E> escapeCondition;
 
-    private final Function<E, E> function;
-
-
-    public FunctionSetEvaluator(int maxIteration, Function<E, E> function, Predicate<E> escapeCondition) {
+    public FunctionSetEvaluator(int maxIteration, Predicate<E> escapeCondition) {
         this.maxIteration = maxIteration;
-        this.function = function;
         this.escapeCondition = escapeCondition;
     }
 
@@ -29,16 +25,19 @@ public class FunctionSetEvaluator<E> implements IterationSetEvaluator<E> {
     public int getIteration(E element) {
         //set start values for the evaluating process
         int iteration = 0;
-        E num = element;
+        E num = this.getInitial(element);
         //return if maxIteration has been reached or the escapeCondition has been met
         while (!this.escapeCondition.test(num) && iteration < this.maxIteration) {
             //pass through iteration by applying function
-            num = this.function.apply(num);
+            num = this.getFunction(element).apply(num);
             iteration++;
         }
         return iteration;
     }
+    public abstract Function<E, E> getFunction(E element);
+    public abstract E getInitial(E element);
 
+    @Override
     public void setMaxIteration(int maxIteration) {
         this.maxIteration = maxIteration;
     }

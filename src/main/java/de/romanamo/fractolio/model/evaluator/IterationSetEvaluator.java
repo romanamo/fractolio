@@ -18,6 +18,12 @@ public interface IterationSetEvaluator<E> extends SetEvaluator<E> {
     int getMaxIteration();
 
     /**
+     * Specifies the maximum iteration at which the Decision is supposed to be interrupted
+     * Sets the maximum possible iteration
+     */
+    void setMaxIteration(int maxIteration);
+
+    /**
      * Specifies the found Iteration, when the program is able to decide,
      * that the Set definitely does not contain the element
      *

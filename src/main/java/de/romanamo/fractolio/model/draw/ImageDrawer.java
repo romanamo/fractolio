@@ -24,6 +24,7 @@ public class ImageDrawer {
     public final DVector2D offset;
 
     private double zoom = 1.0;
+
     FunctionSetEvaluator<DVector2D> evaluator;
 
     public ImageDrawer(FunctionSetEvaluator<DVector2D> evaluator) {
@@ -35,19 +36,46 @@ public class ImageDrawer {
         this.offset = offset;
     }
 
-    public int[][] raster(int width, int height) {
+    public int[][] getRaster(int width, int height) {
+        int tileHeight = 32;
+        int tileWidth = 32;
+
+        //calculate size of the tile-raster
+        int tileRasterHeight = (int) (double) (height) / tileHeight + 1;
+        int tileRasterWidth = (int) (double) (width) / tileWidth + 1;
+
+        //create the raster and fill it with tiles
+        ImageTile[][] tileRaster = new ImageTile[tileRasterHeight][tileRasterWidth];
+        for (int x = 0; x < tileWidth; x++) {
+            for (int y = 0; y < tileHeight; y++) {
+                //Detect if the tiles are "edge cases"
+                boolean onHeightEdge = (y + 1) * tileHeight > height;
+                boolean onWidthEdge = (x + 1) * tileRasterWidth > width;
+
+                //Set the Size of the Tile considering the special case that the tiles do not fit perfectly in
+                int singleHeight = onHeightEdge ? tileHeight - (height - y * tileHeight) : tileHeight;
+                int singleWidth = onWidthEdge ? tileWidth - (width - x * tileWidth) : tileWidth;
+
+                /*
+                DVector2D top = new DVector2D(x * tileWidth, y * tileHeight);
+                DVector2D bottom = new DVector2D(
+                        onWidthEdge ? x * tileWidth + singleWidth : (x+1) * tileWidth,
+                        onHeightEdge ? y * tileHeight + singleHeight : (y+1) * tileHeight);
+                */
+                tileRaster[y][x] = new ImageTile(singleHeight, singleWidth, top, bottom);
+            }
+        }
+
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 double scaledX = ((-FRAME_WIDTH * (1 / zoom)) / 2.0 + x * ((FRAME_WIDTH * (1 / zoom)) / (double) width) + offset.getX());
                 double scaledY = ((FRAME_HEIGHT * (1 / zoom)) / 2.0 - y * ((FRAME_HEIGHT * (1 / zoom)) / (double) height) + offset.getY());
-
-                elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x, y));
             }
         }
     }
 
     public BufferedImage draw(int width, int height, ColorMap map) {
-
+        return null;
     }
 
     public BufferedImage draw() {
