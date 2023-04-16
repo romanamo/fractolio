@@ -4,22 +4,24 @@ import de.romanamo.fractolio.math.DVector2D;
 import de.romanamo.fractolio.model.color.ColorMap;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
-import org.apfloat.Apcomplex;
-import org.apfloat.Apfloat;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * Class {@link ImageDrawer} managing the creation of Images specified by given
- * {@link ComplexFunction}, {@link ColorMap} and {@link SetEvaluator}.
+ * {@link SetEvaluator}, {@link ColorMap} and {@link SetEvaluator}.
  */
 public class ImageDrawer {
 
-    public final static double FRAME_HEIGHT = 3.5;
+    public final static double FRAME_HEIGHT = 4.0;
 
-    public final static double FRAME_WIDTH = 3.5;
+    public final static double FRAME_WIDTH = 4.0;
 
     public final DVector2D offset;
 
@@ -36,97 +38,33 @@ public class ImageDrawer {
         this.offset = offset;
     }
 
-    public int[][] getRaster(int width, int height) {
-        int tileHeight = 32;
-        int tileWidth = 32;
-
-        //calculate size of the tile-raster
-        int tileRasterHeight = (int) (double) (height) / tileHeight + 1;
-        int tileRasterWidth = (int) (double) (width) / tileWidth + 1;
-
-        //create the raster and fill it with tiles
-        ImageTile[][] tileRaster = new ImageTile[tileRasterHeight][tileRasterWidth];
-        for (int x = 0; x < tileWidth; x++) {
-            for (int y = 0; y < tileHeight; y++) {
-                //Detect if the tiles are "edge cases"
-                boolean onHeightEdge = (y + 1) * tileHeight > height;
-                boolean onWidthEdge = (x + 1) * tileRasterWidth > width;
-
-                //Set the Size of the Tile considering the special case that the tiles do not fit perfectly in
-                int singleHeight = onHeightEdge ? tileHeight - (height - y * tileHeight) : tileHeight;
-                int singleWidth = onWidthEdge ? tileWidth - (width - x * tileWidth) : tileWidth;
-
-                /*
-                DVector2D top = new DVector2D(x * tileWidth, y * tileHeight);
-                DVector2D bottom = new DVector2D(
-                        onWidthEdge ? x * tileWidth + singleWidth : (x+1) * tileWidth,
-                        onHeightEdge ? y * tileHeight + singleHeight : (y+1) * tileHeight);
-                */
-                tileRaster[y][x] = new ImageTile(singleHeight, singleWidth, top, bottom);
-            }
-        }
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                double scaledX = ((-FRAME_WIDTH * (1 / zoom)) / 2.0 + x * ((FRAME_WIDTH * (1 / zoom)) / (double) width) + offset.getX());
-                double scaledY = ((FRAME_HEIGHT * (1 / zoom)) / 2.0 - y * ((FRAME_HEIGHT * (1 / zoom)) / (double) height) + offset.getY());
-            }
-        }
-    }
 
     public BufferedImage draw(int width, int height, ColorMap map) {
+        ImageFrame frame = new ImageFrame(width, height, 4.0, 4.0, 1.0, new DVector2D(0, 0));
+
+        frame.calculate(evaluator);
+
+        int[][] raster = frame.getRaster();
+
+        BufferedImage buf = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int entry = raster[j][i];
+                buf.setRGB(i,j, map.translate((double) entry / evaluator.getMaxIteration()));
+            }
+            try {
+                File outputfile = new File("saved.png");
+                ImageIO.write(buf, "png", outputfile);
+            } catch (IOException e) {
+                // handle exception
+            }
+        }
         return null;
     }
 
-    public BufferedImage draw() {
-        int width = size.getWidth();
-        int height = size.getHeight();
-
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        //Set color for every pixel by iterating through width and height of the image
-
-        List<List<DrawInfo>> elements = new ArrayList<>();
-
-        int max = Runtime.getRuntime().availableProcessors();
-        for (int i = 0; i < max; i++) {
-            elements.add(new ArrayList<>());
-        }
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-
-                Apfloat scaledX = new Apfloat(((-FRAME_WIDTH * (1 / zoom)) / 2.0 + x * ((FRAME_WIDTH * (1 / zoom)) / (double) width) + OFFSET_X));
-                Apfloat scaledY = new Apfloat(((FRAME_HEIGHT * (1 / zoom)) / 2.0 - y * ((FRAME_HEIGHT * (1 / zoom)) / (double) height) + OFFSET_Y));
-                Apcomplex c = new Apcomplex(scaledX, scaledY);
-
-                elements.get((int) (Math.random() * (max))).add(new DrawInfo(image, c, this, x, y));
-            }
-        }
-        List<Thread> threads = new ArrayList<>();
-        for (List<DrawInfo> info : elements) {
-            var t = new DrawHelperThread(info);
-            threads.add(t);
-            t.start();
-        }
-
-        for (Thread t : threads) {
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException();
-            }
-
-        }
-        return image;
-    }
-
-    public FunctionSetEvaluator getEvaluator() {
+    public FunctionSetEvaluator<DVector2D> getEvaluator() {
         return evaluator;
-    }
-
-    public ColorMap getColorMap() {
-        return colorMap;
     }
 
     public void setZoom(double zoom) {

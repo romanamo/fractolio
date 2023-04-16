@@ -26,10 +26,12 @@ public abstract class FunctionSetEvaluator<E> implements IterationSetEvaluator<E
         //set start values for the evaluating process
         int iteration = 0;
         E num = this.getInitial(element);
+        Function<E, E> function = this.getFunction(element);
+
         //return if maxIteration has been reached or the escapeCondition has been met
         while (!this.escapeCondition.test(num) && iteration < this.maxIteration) {
             //pass through iteration by applying function
-            num = this.getFunction(element).apply(num);
+            num = function.apply(num);
             iteration++;
         }
         return iteration;

@@ -32,4 +32,11 @@ public class IntVector2D {
         return new IntVector2D(rotatedX, rotatedY);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

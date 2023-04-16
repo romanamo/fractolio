@@ -44,13 +44,15 @@ public class DVector2D {
     }
 
     public DVector2D pow(int power) {
-        //TODO implement
+        System.out.print("alert");
         return DVector2D.ZERO;
     }
 
     public DVector2D multiply(DVector2D operand) {
-        //TODO implement
-        return DVector2D.ZERO;
+        double real = operand.x * x - operand.y * y;
+        double imag = operand.x * y + operand.y * x;
+
+        return new DVector2D(real, imag);
     }
 
     public IntVector2D floor() {
@@ -89,5 +91,13 @@ public class DVector2D {
         temp = Double.doubleToLongBits(y);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DVector2D{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

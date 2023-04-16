@@ -12,7 +12,7 @@ public class MandelbrotEvaluator extends FunctionSetEvaluator<DVector2D> {
 
     @Override
     public Function<DVector2D, DVector2D> getFunction(DVector2D element) {
-        return dVector2D -> dVector2D.pow(2).add(element);
+        return dVector2D -> dVector2D.multiply(dVector2D).add(element);
     }
 
     @Override
