@@ -8,20 +8,31 @@ package de.romanamo.fractolio.model.evaluator;
  *
  * @param <E> Elements the Set consists of
  */
-public interface IterationSetEvaluator<E> extends SetEvaluator<E> {
+public abstract class IterationSetEvaluator<E> implements SetEvaluator<E> {
+
+    private int maxIteration;
+
+    public IterationSetEvaluator(int maxIteration) {
+        this.maxIteration = maxIteration;
+    }
 
     /**
-     * Specifies the maximum iteration at which the Decision is supposed to be interrupted
+     * Specifies the maximum iteration at which the decision process is supposed to be interrupted
      *
      * @return the maximum possible Iteration
      */
-    int getMaxIteration();
+    public int getMaxIteration() {
+        return maxIteration;
+    }
 
     /**
      * Specifies the maximum iteration at which the Decision is supposed to be interrupted
-     * Sets the maximum possible iteration
+     * Sets the maximum possible iteration.
      */
-    void setMaxIteration(int maxIteration);
+    public void setMaxIteration(int maxIteration) {
+        //TODO checks for maxIteration being non-negative
+        this.maxIteration = maxIteration;
+    }
 
     /**
      * Specifies the found Iteration, when the program is able to decide,
@@ -30,10 +41,10 @@ public interface IterationSetEvaluator<E> extends SetEvaluator<E> {
      * @param element element to check
      * @return last made iteration
      */
-    int getIteration(E element);
+    public abstract int getIteration(E element);
 
     @Override
-    default boolean inSet(E element) {
+    public boolean inSet(E element) {
         return this.getMaxIteration() == this.getIteration(element);
     }
 }
