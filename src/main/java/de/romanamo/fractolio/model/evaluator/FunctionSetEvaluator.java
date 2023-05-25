@@ -5,19 +5,17 @@ import java.util.function.Predicate;
 
 /**
  * <h1>FunctionSetEvaluator</h1>
- *
+ * <p>
  * {@link IterationSetEvaluator} that evaluates a given element,
  * by applying a function to the element multiple times
  *
  * @param <E> Element of the Function
  */
-public abstract class FunctionSetEvaluator<E> implements IterationSetEvaluator<E> {
-
-    private int maxIteration;
+public abstract class FunctionSetEvaluator<E> extends IterationSetEvaluator<E> {
     private final Predicate<E> escapeCondition;
 
     public FunctionSetEvaluator(int maxIteration, Predicate<E> escapeCondition) {
-        this.maxIteration = maxIteration;
+        super(maxIteration);
         this.escapeCondition = escapeCondition;
     }
 
@@ -29,23 +27,27 @@ public abstract class FunctionSetEvaluator<E> implements IterationSetEvaluator<E
         Function<E, E> function = this.getFunction(element);
 
         //return if maxIteration has been reached or the escapeCondition has been met
-        while (!this.escapeCondition.test(num) && iteration < this.maxIteration) {
+        while (!this.escapeCondition.test(num) && iteration < this.getMaxIteration()) {
             //pass through iteration by applying function
             num = function.apply(num);
             iteration++;
         }
         return iteration;
     }
+
+    /**
+     * Returns the function used for the evaluation process, in dependence from the passed element
+     *
+     * @param element the passed element
+     * @return the evaluating function
+     */
     public abstract Function<E, E> getFunction(E element);
+
+    /**
+     * Returns the initial value of the evaluating process, in dependence from the passed element
+     *
+     * @param element the passed element
+     * @return the initial value
+     */
     public abstract E getInitial(E element);
-
-    @Override
-    public void setMaxIteration(int maxIteration) {
-        this.maxIteration = maxIteration;
-    }
-
-    @Override
-    public int getMaxIteration() {
-        return maxIteration;
-    }
 }

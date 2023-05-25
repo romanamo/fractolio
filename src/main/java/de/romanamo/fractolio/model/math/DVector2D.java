@@ -36,6 +36,13 @@ public class DVector2D {
         return new DVector2D(rotatedX, rotatedY);
     }
 
+    public DVector2D divide(DVector2D operand) {
+        double real = (x * operand.x + y * operand.y)/(Math.pow(operand.x,2) + Math.pow(operand.y, 2));
+        double imag = (x * operand.x - y * operand.y)/(Math.pow(operand.x,2) + Math.pow(operand.y, 2));
+
+        return new DVector2D(real, imag);
+    }
+
     public double distance(DVector2D operand) {
         double real = Math.pow(this.x - operand.x, 2);
         double imag = Math.pow(this.y - operand.y, 2);
