@@ -1,6 +1,15 @@
 package de.romanamo.fractolio;
 
 
+import de.romanamo.fractolio.model.color.BlackWhiteMap;
+import de.romanamo.fractolio.model.color.HueMap;
+import de.romanamo.fractolio.model.color.LightMap;
+import de.romanamo.fractolio.model.draw.ImageDrawer;
+import de.romanamo.fractolio.model.draw.ImageScaler;
+import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
+import de.romanamo.fractolio.model.evaluator.JuliaEvaluator;
+import de.romanamo.fractolio.model.evaluator.MandelbrotEvaluator;
+import de.romanamo.fractolio.model.math.DVector2D;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
@@ -8,6 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -15,9 +27,14 @@ import org.apfloat.Apcomplex;
 import org.apfloat.Apfloat;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
+    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(20);
+
+    public static ImageDrawer drawer = new ImageDrawer(mandelbrot);
 
     class ResizableCanvas extends Canvas {
 
@@ -37,6 +54,15 @@ public class HelloApplication extends Application {
             }
 
             gc.clearRect(0, 0, width, height);
+
+
+
+            BufferedImage image = drawer.draw(160, 160, new HueMap(1, 0.5f) {
+            });
+
+            BufferedImage scaledImage = ImageScaler.scale(image, (int) width, (int) height);
+
+            gc.drawImage(SwingFXUtils.toFXImage(scaledImage, null), 0, 0);
         }
 
         @Override
@@ -84,7 +110,30 @@ public class HelloApplication extends Application {
 
 
         root.setOnScroll(scrollEvent -> {
-            //ZOOM
+            double zoom = drawer.getZoom();
+            //TODO Change that zoom stays relative
+            drawer.setZoom(zoom + scrollEvent.getDeltaY() * 0.01 * zoom);
+            canvas.draw();
+        });
+
+        scene.addEventFilter(KeyEvent.ANY, e -> {
+            double distance = 0.2 * (1.0/drawer.getZoom());
+            double x = drawer.getOffset().getX();
+            double y = drawer.getOffset().getY();
+            if (e.getCode() == KeyCode.W) {
+                y += distance;
+            }
+            else if (e.getCode() == KeyCode.S) {
+                y -= distance;
+            }
+            if (e.getCode() == KeyCode.A) {
+                x -= distance;
+            }
+            else if (e.getCode() == KeyCode.D) {
+                x += distance;
+            }
+            drawer.setOffset(new DVector2D(x,y));
+            canvas.draw();
         });
     }
 

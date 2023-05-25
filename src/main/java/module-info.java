@@ -7,6 +7,7 @@ module de.romanamo.fractolio {
     requires com.dlsc.formsfx;
     requires java.desktop;
     requires javafx.swing;
+    requires java.logging;
 
     opens de.romanamo.fractolio to javafx.fxml;
     exports de.romanamo.fractolio;

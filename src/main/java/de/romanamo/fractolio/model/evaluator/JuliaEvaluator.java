@@ -1,9 +1,14 @@
 package de.romanamo.fractolio.model.evaluator;
 
-import de.romanamo.fractolio.math.DVector2D;
+import de.romanamo.fractolio.model.math.DVector2D;
 
 import java.util.function.Function;
 
+/**
+ * <h1>JuliaEvaluator</h1>
+ *
+ * Evaluator for JuliaSets
+ */
 public class JuliaEvaluator extends FunctionSetEvaluator<DVector2D> {
 
     private Function<DVector2D, DVector2D> function;

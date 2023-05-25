@@ -1,4 +1,4 @@
-package de.romanamo.fractolio.math;
+package de.romanamo.fractolio.model.math;
 
 public class IntVector2D {
 

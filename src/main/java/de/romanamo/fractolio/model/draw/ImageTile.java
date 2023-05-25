@@ -1,7 +1,6 @@
 package de.romanamo.fractolio.model.draw;
 
-import de.romanamo.fractolio.Main;
-import de.romanamo.fractolio.math.DVector2D;
+import de.romanamo.fractolio.model.math.DVector2D;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 
 public class ImageTile {

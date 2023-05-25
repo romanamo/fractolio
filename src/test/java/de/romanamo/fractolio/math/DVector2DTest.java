@@ -1,5 +1,6 @@
 package de.romanamo.fractolio.math;
 
+import de.romanamo.fractolio.model.math.DVector2D;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

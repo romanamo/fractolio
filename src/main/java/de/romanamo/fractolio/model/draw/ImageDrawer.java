@@ -1,17 +1,16 @@
 package de.romanamo.fractolio.model.draw;
 
-import de.romanamo.fractolio.math.DVector2D;
+import de.romanamo.fractolio.log.Log;
+import de.romanamo.fractolio.model.math.DVector2D;
 import de.romanamo.fractolio.model.color.ColorMap;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import java.util.logging.Logger;
 
 /**
  * Class {@link ImageDrawer} managing the creation of Images specified by given
@@ -19,11 +18,13 @@ import java.util.stream.IntStream;
  */
 public class ImageDrawer {
 
+    private static Logger logger = Logger.getLogger(Log.NAME);
+
     public final static double FRAME_HEIGHT = 4.0;
 
     public final static double FRAME_WIDTH = 4.0;
 
-    public final DVector2D offset;
+    public DVector2D offset;
 
     private double zoom = 1.0;
 
@@ -40,7 +41,10 @@ public class ImageDrawer {
 
 
     public BufferedImage draw(int width, int height, ColorMap map) {
-        ImageFrame frame = new ImageFrame(width, height, 4.0, 4.0, 1.0, new DVector2D(0, 0));
+
+        logger.info(String.format("Image-Creation with width: %d, height: %d", width, height));
+
+        ImageFrame frame = new ImageFrame(width, height, 4.0, 4.0, this.zoom, this.offset);
 
         frame.calculate(evaluator);
 
@@ -60,7 +64,8 @@ public class ImageDrawer {
                 // handle exception
             }
         }
-        return null;
+        logger.info("finished");
+        return buf;
     }
 
     public FunctionSetEvaluator<DVector2D> getEvaluator() {
@@ -73,5 +78,13 @@ public class ImageDrawer {
 
     public double getZoom() {
         return zoom;
+    }
+
+    public DVector2D getOffset() {
+        return offset;
+    }
+
+    public void setOffset(DVector2D offset) {
+        this.offset = offset;
     }
 }

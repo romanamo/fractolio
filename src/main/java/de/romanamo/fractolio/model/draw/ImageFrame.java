@@ -1,13 +1,13 @@
 package de.romanamo.fractolio.model.draw;
 
-import de.romanamo.fractolio.math.DVector2D;
-import de.romanamo.fractolio.math.IntVector2D;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
+import de.romanamo.fractolio.model.math.DVector2D;
+import de.romanamo.fractolio.model.math.IntVector2D;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ImageFrame {
 
@@ -69,7 +69,6 @@ public class ImageFrame {
     }
 
     public void calculate(FunctionSetEvaluator<DVector2D> evaluator) {
-
         Random rand = new Random();
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         List<CalculationHelper> helperList = new ArrayList<>();
@@ -88,7 +87,7 @@ public class ImageFrame {
         for (CalculationHelper helper : helperList) {
             try {
                 helper.join();
-            }catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 System.out.print("no");
             }
         }
@@ -110,19 +109,11 @@ public class ImageFrame {
         }
         return raster;
     }
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
 
-    @Override
-    public String toString() {
-        return "ImageFrame{" +
-                "width=" + width +
-                ", height=" + height +
-                ", planeWidth=" + planeWidth +
-                ", planeHeight=" + planeHeight +
-                ", zoom=" + zoom +
-                ", planeOffset=" + planeOffset +
-                ", tileWidth=" + tileWidth +
-                ", tileHeight=" + tileHeight +
-                ", tileRaster=" + Arrays.toString(tileRaster) +
-                '}';
+    public void setPlaneOffset(DVector2D planeOffset) {
+        this.planeOffset = planeOffset;
     }
 }
