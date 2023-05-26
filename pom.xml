@@ -53,15 +53,31 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apfloat</groupId>
-            <artifactId>apfloat</artifactId>
-            <version>1.10.1</version>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <transformers>
+                                <transformer implementation=
+                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>de.romanamo.fractolio.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -80,7 +96,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>de.romanamo.fractolio/de.romanamo.fractolio.HelloApplication</mainClass>
+                            <mainClass>de.romanamo.fractolio/de.romanamo.fractolio.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

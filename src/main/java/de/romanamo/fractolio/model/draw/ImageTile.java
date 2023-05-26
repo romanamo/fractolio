@@ -78,10 +78,10 @@ public class ImageTile {
     }
 
     public int getTileWidth() {
-        return tileWidth;
+        return this.tileWidth;
     }
 
     public int getTileHeight() {
-        return tileHeight;
+        return this.tileHeight;
     }
 }

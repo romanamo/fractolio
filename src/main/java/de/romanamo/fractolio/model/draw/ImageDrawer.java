@@ -1,15 +1,11 @@
 package de.romanamo.fractolio.model.draw;
 
 import de.romanamo.fractolio.log.Log;
-import de.romanamo.fractolio.model.math.DVector2D;
 import de.romanamo.fractolio.model.color.ColorMap;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
+import de.romanamo.fractolio.model.math.DVector2D;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -40,7 +36,7 @@ public class ImageDrawer {
     }
 
 
-    public BufferedImage draw(int width, int height, ColorMap map) {
+    public int[][] draw(int width, int height, ColorMap map) {
 
         logger.info(String.format("Image-Creation with width: %d, height: %d", width, height));
 
@@ -50,22 +46,22 @@ public class ImageDrawer {
 
         int[][] raster = frame.getRaster();
 
-        BufferedImage buf = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int entry = raster[j][i];
-                buf.setRGB(i,j, map.translate((double) entry / evaluator.getMaxIteration()));
-            }
-            try {
-                File outputfile = new File("saved.png");
-                ImageIO.write(buf, "png", outputfile);
-            } catch (IOException e) {
-                // handle exception
-            }
-        }
-        logger.info("finished");
-        return buf;
+        //BufferedImage buf = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        //
+        //for (int i = 0; i < height; i++) {
+        //    for (int j = 0; j < width; j++) {
+        //        int entry = raster[j][i];
+        //        buf.setRGB(i,j, map.translate((double) entry / evaluator.getMaxIteration()));
+        //    }
+        //    try {
+        //        File outputfile = new File("saved.png");
+        //        ImageIO.write(buf, "png", outputfile);
+        //    } catch (IOException e) {
+        //        // handle exception
+        //    }
+        //}
+        //logger.info("finished");
+        return raster;
     }
 
     public FunctionSetEvaluator<DVector2D> getEvaluator() {

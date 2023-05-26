@@ -15,7 +15,7 @@ public class FractolioCli {
 
     private static Logger logger = Logger.getLogger(Log.NAME);
 
-    public static void main(String[] args) {
+    public static void notmain(String[] args) {
 
         Log.initialize("");
         logger.setLevel(Level.ALL);

@@ -1,13 +1,13 @@
 package de.romanamo.fractolio.log;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Log {
 

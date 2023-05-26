@@ -13,7 +13,7 @@ public abstract class IterationSetEvaluator<E> implements SetEvaluator<E> {
     private int maxIteration;
 
     public IterationSetEvaluator(int maxIteration) {
-        this.maxIteration = maxIteration;
+        this.setMaxIteration(maxIteration);
     }
 
     /**
@@ -30,7 +30,10 @@ public abstract class IterationSetEvaluator<E> implements SetEvaluator<E> {
      * Sets the maximum possible iteration.
      */
     public void setMaxIteration(int maxIteration) {
-        //TODO checks for maxIteration being non-negative
+        if(maxIteration < 0) {
+            throw new IllegalArgumentException(
+                    String.format("Maximum Iteration: %d has to be greater or equals Zero", maxIteration));
+        }
         this.maxIteration = maxIteration;
     }
 

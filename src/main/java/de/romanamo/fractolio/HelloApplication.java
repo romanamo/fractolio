@@ -1,38 +1,28 @@
 package de.romanamo.fractolio;
 
 
-import de.romanamo.fractolio.model.color.BlackWhiteMap;
 import de.romanamo.fractolio.model.color.HueMap;
-import de.romanamo.fractolio.model.color.LightMap;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
-import de.romanamo.fractolio.model.draw.ImageScaler;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
-import de.romanamo.fractolio.model.evaluator.JuliaEvaluator;
 import de.romanamo.fractolio.model.evaluator.MandelbrotEvaluator;
 import de.romanamo.fractolio.model.math.DVector2D;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.apfloat.Apcomplex;
-import org.apfloat.Apfloat;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(20);
+    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(160);
 
     public static ImageDrawer drawer = new ImageDrawer(mandelbrot);
 
@@ -49,20 +39,31 @@ public class HelloApplication extends Application {
             double height = getHeight();
             GraphicsContext gc = getGraphicsContext2D();
 
-            if( width <= 1 || height <= 1) {
+            if (width <= 1 || height <= 1) {
                 return;
             }
 
             gc.clearRect(0, 0, width, height);
 
-
-
-            BufferedImage image = drawer.draw(160, 160, new HueMap(1, 0.5f) {
+            int imageHeight = 500;
+            int imageWidth = 700;
+            int[][] raster = drawer.draw(imageWidth, imageHeight, new HueMap(1, 0.5f) {
             });
+            PixelWriter pw = gc.getPixelWriter();
 
-            BufferedImage scaledImage = ImageScaler.scale(image, (int) width, (int) height);
-
-            gc.drawImage(SwingFXUtils.toFXImage(scaledImage, null), 0, 0);
+            for (int h = 0; h < (int) height; h++) {
+                for (int w = 0; w < (int) width; w++) {
+                    int relX = (int) Math.round((w / width) * imageWidth);
+                    int relY = (int) Math.round((h / height) * imageHeight);
+                    relX = Math.min(relX, imageWidth-1);
+                    relY = Math.min(relY, imageHeight-1);
+                    int color = new HueMap(2, 0.5f).translate((double) raster[relY][relX] / drawer.getEvaluator().getMaxIteration());
+                    int r = (color >> 16) & 0xFF;
+                    int g = (color >> 8) & 0xFF;
+                    int b = color & 0xFF;
+                    pw.setColor(w, h, Color.rgb(r, g, b));
+                }
+            }
         }
 
         @Override
@@ -117,22 +118,20 @@ public class HelloApplication extends Application {
         });
 
         scene.addEventFilter(KeyEvent.ANY, e -> {
-            double distance = 0.2 * (1.0/drawer.getZoom());
+            double distance = 0.2 * (1.0 / drawer.getZoom());
             double x = drawer.getOffset().getX();
             double y = drawer.getOffset().getY();
             if (e.getCode() == KeyCode.W) {
                 y += distance;
-            }
-            else if (e.getCode() == KeyCode.S) {
+            } else if (e.getCode() == KeyCode.S) {
                 y -= distance;
             }
             if (e.getCode() == KeyCode.A) {
                 x -= distance;
-            }
-            else if (e.getCode() == KeyCode.D) {
+            } else if (e.getCode() == KeyCode.D) {
                 x += distance;
             }
-            drawer.setOffset(new DVector2D(x,y));
+            drawer.setOffset(new DVector2D(x, y));
             canvas.draw();
         });
     }
