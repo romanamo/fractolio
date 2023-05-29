@@ -18,7 +18,6 @@ of fractals.
 
 ## Built with
 
-* Apfloat
 * JavaFx
 * Maven
 
@@ -38,3 +37,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [last-commit]: https://img.shields.io/github/last-commit/romanamo/fractolio
 [updates-monthly]: https://img.shields.io/github/commit-activity/m/romanamo/fractolio
 [license]: https://img.shields.io/github/license/romanamo/fractolio
+
+## Gallery
+
+![example-0](assets/example_0.PNG)
+![example-0](assets/example_1.PNG)
+

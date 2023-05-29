@@ -51,8 +51,7 @@ public class DVector2D {
     }
 
     public DVector2D pow(int power) {
-        System.out.print("alert");
-        return DVector2D.ZERO;
+        throw new UnsupportedOperationException();
     }
 
     public DVector2D multiply(DVector2D operand) {

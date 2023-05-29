@@ -48,3 +48,6 @@ build/
 
 ### LOGS ###
 logs
+
+### IntelliJ ###
+.idea

@@ -2,7 +2,7 @@ package de.romanamo.fractolio;
 
 
 import de.romanamo.fractolio.model.color.BiColorMap;
-import de.romanamo.fractolio.model.color.BlackWhiteColorMap;
+import de.romanamo.fractolio.model.color.HueColorMap;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.MandelbrotEvaluator;
@@ -18,8 +18,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class HelloApplication extends Application {
 
@@ -51,7 +49,7 @@ public class HelloApplication extends Application {
             int[][] raster = drawer.draw(imageWidth, imageHeight);
             PixelWriter pw = gc.getPixelWriter();
 
-            BiColorMap colorMap = new BlackWhiteColorMap(true);
+            BiColorMap colorMap = new HueColorMap();
             for (int h = 0; h < (int) height; h++) {
                 for (int w = 0; w < (int) width; w++) {
                     int relX = (int) Math.round((w / width) * imageWidth);
