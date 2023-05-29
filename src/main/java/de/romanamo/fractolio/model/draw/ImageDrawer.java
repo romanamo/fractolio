@@ -1,7 +1,6 @@
 package de.romanamo.fractolio.model.draw;
 
 import de.romanamo.fractolio.log.Log;
-import de.romanamo.fractolio.model.color.ColorMap;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.SetEvaluator;
 import de.romanamo.fractolio.model.math.DVector2D;
@@ -10,7 +9,7 @@ import java.util.logging.Logger;
 
 /**
  * Class {@link ImageDrawer} managing the creation of Images specified by given
- * {@link SetEvaluator}, {@link ColorMap} and {@link SetEvaluator}.
+ * {@link SetEvaluator}.
  */
 public class ImageDrawer {
 
@@ -36,32 +35,15 @@ public class ImageDrawer {
     }
 
 
-    public int[][] draw(int width, int height, ColorMap map) {
+    public int[][] draw(int width, int height) {
 
         logger.info(String.format("Image-Creation with width: %d, height: %d", width, height));
 
-        ImageFrame frame = new ImageFrame(width, height, 4.0, 4.0, this.zoom, this.offset);
+        ImageFrame frame = new ImageFrame(width, height, FRAME_WIDTH, FRAME_HEIGHT, this.zoom, this.offset);
 
         frame.calculate(evaluator);
 
-        int[][] raster = frame.getRaster();
-
-        //BufferedImage buf = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        //
-        //for (int i = 0; i < height; i++) {
-        //    for (int j = 0; j < width; j++) {
-        //        int entry = raster[j][i];
-        //        buf.setRGB(i,j, map.translate((double) entry / evaluator.getMaxIteration()));
-        //    }
-        //    try {
-        //        File outputfile = new File("saved.png");
-        //        ImageIO.write(buf, "png", outputfile);
-        //    } catch (IOException e) {
-        //        // handle exception
-        //    }
-        //}
-        //logger.info("finished");
-        return raster;
+        return frame.getRaster();
     }
 
     public FunctionSetEvaluator<DVector2D> getEvaluator() {

@@ -1,7 +1,8 @@
 package de.romanamo.fractolio;
 
 
-import de.romanamo.fractolio.model.color.HueMap;
+import de.romanamo.fractolio.model.color.BiColorMap;
+import de.romanamo.fractolio.model.color.BlackWhiteColorMap;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
 import de.romanamo.fractolio.model.evaluator.MandelbrotEvaluator;
@@ -22,7 +23,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(160);
+    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(200);
 
     public static ImageDrawer drawer = new ImageDrawer(mandelbrot);
 
@@ -47,17 +48,17 @@ public class HelloApplication extends Application {
 
             int imageHeight = 500;
             int imageWidth = 700;
-            int[][] raster = drawer.draw(imageWidth, imageHeight, new HueMap(1, 0.5f) {
-            });
+            int[][] raster = drawer.draw(imageWidth, imageHeight);
             PixelWriter pw = gc.getPixelWriter();
 
+            BiColorMap colorMap = new BlackWhiteColorMap(true);
             for (int h = 0; h < (int) height; h++) {
                 for (int w = 0; w < (int) width; w++) {
                     int relX = (int) Math.round((w / width) * imageWidth);
                     int relY = (int) Math.round((h / height) * imageHeight);
                     relX = Math.min(relX, imageWidth-1);
                     relY = Math.min(relY, imageHeight-1);
-                    int color = new HueMap(2, 0.5f).translate((double) raster[relY][relX] / drawer.getEvaluator().getMaxIteration());
+                    int color = colorMap.map(raster[relY][relX], drawer.getEvaluator().getMaxIteration());
                     int r = (color >> 16) & 0xFF;
                     int g = (color >> 8) & 0xFF;
                     int b = color & 0xFF;
@@ -83,7 +84,7 @@ public class HelloApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage){
 
 
         // Create the Pane

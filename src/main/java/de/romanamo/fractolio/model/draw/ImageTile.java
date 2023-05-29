@@ -42,12 +42,13 @@ public class ImageTile {
     public void calculate(FunctionSetEvaluator<DVector2D> evaluator) {
         //calculate every tile by iterating through x and y
         boolean hasConnectedBorders = true;
+        int value = evaluator.getIteration(fetchNumber(0,1));
 
         //Check if the top and bottom row of the TileGrid is inside the set
         for (int x = 0; x < this.tileWidth; x++) {
             for (int row : new int[]{0, tileHeight - 1}) {
                 raster[row][x] = evaluator.getIteration(fetchNumber(x, row));
-                if (raster[row][x] != evaluator.getMaxIteration()) {
+                if (raster[row][x] != value) {
                     hasConnectedBorders = false;
                 }
             }
@@ -56,7 +57,7 @@ public class ImageTile {
         for (int y = 1; y < this.tileHeight - 1; y++) {
             for (int column : new int[]{0, tileWidth - 1}) {
                 raster[y][column] = evaluator.getIteration(fetchNumber(column, y));
-                if (raster[y][column] != evaluator.getMaxIteration()) {
+                if (raster[y][column] != value) {
                     hasConnectedBorders = false;
                 }
             }
@@ -65,7 +66,7 @@ public class ImageTile {
         for (int x = 1; x < this.tileWidth - 1; x++) {
             for (int y = 1; y < this.tileHeight - 1; y++) {
                 if (hasConnectedBorders) {
-                    raster[y][x] = evaluator.getMaxIteration();
+                    raster[y][x] = value;
                 } else {
                     raster[y][x] = evaluator.getIteration(fetchNumber(x,y));
                 }
