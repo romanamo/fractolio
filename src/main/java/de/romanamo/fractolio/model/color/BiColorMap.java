@@ -1,6 +1,7 @@
 package de.romanamo.fractolio.model.color;
 
 /**
+ * <h1>BiColorMap</h1>
  * <P>
  * The interface BiColorMap specifies a color mapping of 2 <code>int</code> values to an <code>int</code> RGB-value.
  * </p>

@@ -1,6 +1,7 @@
 package de.romanamo.fractolio.model.color;
 
 /**
+ * <h1>FractionalMap</h1>
  * <p>
  * The class FractionalMap wraps the BiColorMap functionality by providing extra requirements,
  * for the parameters <code>a,b</code>.

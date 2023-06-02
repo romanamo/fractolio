@@ -33,5 +33,6 @@ class BlackWhiteColorMapTest {
         BiColorMap blackWhiteColorMap = new BlackWhiteColorMap();
 
         assertThrows(IllegalArgumentException.class, () ->  blackWhiteColorMap.map(1, 0));
+        assertThrows(IllegalArgumentException.class, () ->  blackWhiteColorMap.map(0, 0));
     }
 }

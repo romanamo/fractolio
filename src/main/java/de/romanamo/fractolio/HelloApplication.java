@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
 
-    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(100);
+    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(160);
 
     public static ImageDrawer drawer = new ImageDrawer(mandelbrot);
 
@@ -67,7 +67,6 @@ public class HelloApplication extends Application {
                 }
             }
         }
-
         @Override
         public boolean isResizable() {
             return true;

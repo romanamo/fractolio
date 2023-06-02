@@ -24,18 +24,29 @@ public class HueColorMap extends FractionalMap {
 
     private float saturation;
 
-    public HueColorMap(float cycles, float offset, float brightness, float saturation) {
-        this.cycles = cycles;
-        this.offset = offset;
-        this.brightness = brightness;
-        this.saturation = saturation;
-    }
-
+    /**
+     * Constructor for {@link HueColorMap}.
+     */
     public HueColorMap() {
         this.cycles = 1f;
         this.offset = 0;
         this.brightness = 0.5f;
         this.saturation = 1f;
+    }
+
+    /**
+     * Constructor for {@link HueColorMap}.
+     *
+     * @param cycles     cyclic appearance of the hue
+     * @param offset     offset of hue color spectrum
+     * @param brightness brightness
+     * @param saturation saturation
+     */
+    public HueColorMap(float cycles, float offset, float brightness, float saturation) {
+        this.cycles = cycles;
+        this.offset = offset;
+        this.brightness = brightness;
+        this.saturation = saturation;
     }
 
     @Override
@@ -50,6 +61,22 @@ public class HueColorMap extends FractionalMap {
         return Color.getHSBColor(hue * cycles + offset, saturation, brightness).getRGB();
     }
 
+    public float getOffset() {
+        return offset;
+    }
+
+    public float getBrightness() {
+        return brightness;
+    }
+
+    public float getSaturation() {
+        return saturation;
+    }
+
+    public float getCycles() {
+        return cycles;
+    }
+
     public void setOffset(float offset) {
         this.offset = offset;
     }
@@ -60,5 +87,9 @@ public class HueColorMap extends FractionalMap {
 
     public void setSaturation(float saturation) {
         this.saturation = saturation;
+    }
+
+    public void setCycles(float cycles) {
+        this.cycles = cycles;
     }
 }

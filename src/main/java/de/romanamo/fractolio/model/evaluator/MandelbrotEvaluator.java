@@ -3,6 +3,7 @@ package de.romanamo.fractolio.model.evaluator;
 import de.romanamo.fractolio.model.math.DVector2D;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * <h1>MandelbrotEvaluator</h1>
@@ -21,7 +22,7 @@ public class MandelbrotEvaluator extends FunctionSetEvaluator<DVector2D> {
      * @param maxIteration maximum Iteration
      */
     public MandelbrotEvaluator(int maxIteration) {
-        super(maxIteration, dVector2D -> dVector2D.distance(DVector2D.ZERO) > 2);
+        super(maxIteration);
     }
 
     @Override
@@ -32,5 +33,10 @@ public class MandelbrotEvaluator extends FunctionSetEvaluator<DVector2D> {
     @Override
     public DVector2D getInitial(DVector2D element) {
         return DVector2D.ZERO;
+    }
+
+    @Override
+    public Predicate<DVector2D> getEscapeCondition() {
+        return dVector2D -> dVector2D.distance(DVector2D.ZERO) > 2;
     }
 }
