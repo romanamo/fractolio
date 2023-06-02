@@ -6,14 +6,23 @@ import java.util.function.Predicate;
 /**
  * <h1>FunctionSetEvaluator</h1>
  * <p>
- * {@link IterationSetEvaluator} that evaluates a given element,
- * by applying a function to the element multiple times
+ * The FunctionSetEvaluator class evaluates a given element,
+ * by applying a function to the element multiple times.
+ * The given element is part of the set,
+ * if the supplied escaping condition has not been met.
+ * </p>
  *
  * @param <E> Element of the Function
  */
 public abstract class FunctionSetEvaluator<E> extends IterationSetEvaluator<E> {
     private final Predicate<E> escapeCondition;
 
+    /**
+     * Constructor of {@link FunctionSetEvaluator}.
+     *
+     * @param maxIteration    maximum Iteration
+     * @param escapeCondition escape Condition
+     */
     public FunctionSetEvaluator(int maxIteration, Predicate<E> escapeCondition) {
         super(maxIteration);
         this.escapeCondition = escapeCondition;
@@ -36,7 +45,7 @@ public abstract class FunctionSetEvaluator<E> extends IterationSetEvaluator<E> {
     }
 
     /**
-     * Returns the function used for the evaluation process, in dependence from the passed element
+     * Returns the function used for the evaluation process, in dependence from the passed element.
      *
      * @param element the passed element
      * @return the evaluating function
@@ -44,7 +53,8 @@ public abstract class FunctionSetEvaluator<E> extends IterationSetEvaluator<E> {
     public abstract Function<E, E> getFunction(E element);
 
     /**
-     * Returns the initial value of the evaluating process, in dependence from the passed element
+     * Returns the initial value of the evaluating process.
+     * Can depend on the passed element.
      *
      * @param element the passed element
      * @return the initial value

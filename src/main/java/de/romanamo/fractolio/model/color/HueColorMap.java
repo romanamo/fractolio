@@ -4,6 +4,7 @@ package de.romanamo.fractolio.model.color;
 import java.awt.*;
 
 /**
+ * <h1>HueColorMap</h1>
  * <p>
  * The HueColorMap class implements the usual color mapping,
  * known for coloring the Mandelbrotset.
@@ -15,19 +16,23 @@ import java.awt.*;
  */
 public class HueColorMap extends FractionalMap {
 
+    private float cycles;
+
     private float offset;
 
     private float brightness;
 
     private float saturation;
 
-    public HueColorMap(float offset, float brightness, float saturation) {
+    public HueColorMap(float cycles, float offset, float brightness, float saturation) {
+        this.cycles = cycles;
         this.offset = offset;
         this.brightness = brightness;
         this.saturation = saturation;
     }
 
     public HueColorMap() {
+        this.cycles = 1f;
         this.offset = 0;
         this.brightness = 0.5f;
         this.saturation = 1f;
@@ -42,7 +47,7 @@ public class HueColorMap extends FractionalMap {
         //color remaining points in relation to their escaping speed
         float hue = (float) numerator / denominator;
 
-        return Color.getHSBColor(hue + offset, saturation, brightness).getRGB();
+        return Color.getHSBColor(hue * cycles + offset, saturation, brightness).getRGB();
     }
 
     public void setOffset(float offset) {

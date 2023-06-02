@@ -2,9 +2,11 @@ package de.romanamo.fractolio.model.evaluator;
 
 /**
  * <h1>IterationSetEvaluator</h1>
- * <p>Checks if an Element is inside of a set. The process to decide,
+ * <p>
+ * The IterationSetEvaluator class checks if an element is inside of a set. The process to decide,
  * if the Set contains specified element is done with a specified precision called {@code iteration}.
- * Normally the higher the iteration, the more precise is the result of the {@code inSet()}-function</p>
+ * The higher the iteration, the more precise is the result of the {@code inSet()}-function.
+ * </p>
  *
  * @param <E> Elements the Set consists of
  */
@@ -12,12 +14,17 @@ public abstract class IterationSetEvaluator<E> implements SetEvaluator<E> {
 
     private int maxIteration;
 
+    /**
+     * Constructor of {@link IterationSetEvaluator}.
+     *
+     * @param maxIteration maximum Iteration
+     */
     public IterationSetEvaluator(int maxIteration) {
         this.setMaxIteration(maxIteration);
     }
 
     /**
-     * Specifies the maximum iteration at which the decision process is supposed to be interrupted
+     * Specifies the maximum iteration at which the decision process is supposed to be interrupted.
      *
      * @return the maximum possible Iteration
      */
@@ -30,7 +37,7 @@ public abstract class IterationSetEvaluator<E> implements SetEvaluator<E> {
      * Sets the maximum possible iteration.
      */
     public void setMaxIteration(int maxIteration) {
-        if(maxIteration < 0) {
+        if (maxIteration < 0) {
             throw new IllegalArgumentException(
                     String.format("Maximum Iteration: %d has to be greater or equals Zero", maxIteration));
         }
@@ -39,7 +46,7 @@ public abstract class IterationSetEvaluator<E> implements SetEvaluator<E> {
 
     /**
      * Specifies the found Iteration, when the program is able to decide,
-     * that the Set definitely does not contain the element
+     * that the set definitely does not contain the given element.
      *
      * @param element element to check
      * @return last made iteration

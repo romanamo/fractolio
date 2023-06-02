@@ -1,9 +1,8 @@
-package de.romanamo.fractolio.math;
+package de.romanamo.fractolio.model.math;
 
-import de.romanamo.fractolio.model.math.DVector2D;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DVector2DTest {
 

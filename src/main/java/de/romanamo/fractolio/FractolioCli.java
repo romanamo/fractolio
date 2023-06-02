@@ -3,8 +3,6 @@ package de.romanamo.fractolio;
 import de.romanamo.fractolio.log.Log;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
 import de.romanamo.fractolio.model.evaluator.FunctionSetEvaluator;
-import de.romanamo.fractolio.model.evaluator.JuliaEvaluator;
-import de.romanamo.fractolio.model.evaluator.MandelbrotEvaluator;
 import de.romanamo.fractolio.model.math.DVector2D;
 
 import java.util.logging.Level;
@@ -28,16 +26,6 @@ public class FractolioCli {
          * -d Outputdirectory
          * -v verbose
          */
-
-        if(fractalType.equals("mandelbrot")) {
-            evaluator = new MandelbrotEvaluator(10);
-        } else if (fractalType.equals("julia")) {
-            evaluator = new JuliaEvaluator(10, (element) -> (element.scale(2.0)));
-        }
-        else {
-            System.err.println("Wrong Use");
-            System.exit(1);
-        }
 
         ImageDrawer drawer = new ImageDrawer(evaluator);
 

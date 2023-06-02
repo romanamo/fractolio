@@ -2,6 +2,9 @@ package de.romanamo.fractolio.model.evaluator;
 
 /**
  * <h1>SetEvaluator</h1>
+ * <p>
+ * Evaluates if an Element of given Type is inside the Set.
+ * </p>
  *
  * @param <E> Elements the Set consists of
  * @version 1.0.0

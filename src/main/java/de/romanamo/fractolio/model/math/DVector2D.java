@@ -36,6 +36,10 @@ public class DVector2D {
         return new DVector2D(rotatedX, rotatedY);
     }
 
+    public DVector2D conjugate() {
+        return new DVector2D(this.x, -this.y);
+    }
+
     public DVector2D divide(DVector2D operand) {
         double real = (x * operand.x + y * operand.y)/(Math.pow(operand.x,2) + Math.pow(operand.y, 2));
         double imag = (x * operand.x - y * operand.y)/(Math.pow(operand.x,2) + Math.pow(operand.y, 2));
@@ -51,6 +55,7 @@ public class DVector2D {
     }
 
     public DVector2D pow(int power) {
+        //TODO implement instead of throwing exception
         throw new UnsupportedOperationException();
     }
 
