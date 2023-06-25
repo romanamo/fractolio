@@ -37,7 +37,7 @@ public class ImageDrawer {
 
     public int[][] draw(int width, int height) {
 
-        logger.info(String.format("Image-Creation with width: %d, height: %d", width, height));
+        //logger.info(String.format("Image-Creation with width: %d, height: %d", width, height));
 
         ImageFrame frame = new ImageFrame(width, height, FRAME_WIDTH, FRAME_HEIGHT, this.zoom, this.offset);
 

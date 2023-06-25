@@ -1,6 +1,7 @@
 package de.romanamo.fractolio;
 
 
+import de.romanamo.fractolio.log.Log;
 import de.romanamo.fractolio.model.color.BiColorMap;
 import de.romanamo.fractolio.model.color.HueColorMap;
 import de.romanamo.fractolio.model.draw.ImageDrawer;
@@ -22,9 +23,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.logging.Logger;
+
 public class HelloApplication extends Application {
 
-    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(160);
+
+    public Logger logger = Logger.getLogger(Log.NAME);
+    public static FunctionSetEvaluator<DVector2D> mandelbrot = new MandelbrotEvaluator(170);
 
     public static ImageDrawer drawer = new ImageDrawer(mandelbrot);
 

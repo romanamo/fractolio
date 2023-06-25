@@ -29,7 +29,7 @@ public abstract class FractionalMap implements BiColorMap {
      * Maps 2 <code>int</code> values to an <code>int</code> RGB-value.
      * Wrapped by FractionalMap class.
      *
-     * @param numerator first <code>int</code> value
+     * @param numerator   first <code>int</code> value
      * @param denominator second <code>int</code> value
      * @return the mapped <code>int</code> RGB-value
      */
